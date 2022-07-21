@@ -1,6 +1,24 @@
 import React from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Film} from '../../types/film';
+import {convertMinsToHours} from '../../utils';
+import NotFoundscreen from '../not-found-screen/not-found-screen';
 
-function PlayerScreen(): JSX.Element {
+const NAVIGATE_DELTA = -1;
+
+type PlayerProps = {
+  films: Film[],
+}
+
+function PlayerScreen({films}: PlayerProps): JSX.Element {
+  const params = useParams();
+  const navigate = useNavigate();
+  const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
+
+  if (!film) {
+    return <NotFoundscreen />;
+  }
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -35,7 +53,7 @@ function PlayerScreen(): JSX.Element {
       <div className="player">
         <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
 
-        <button type="button" className="player__exit">Exit</button>
+        <button onClick={() => navigate(NAVIGATE_DELTA)} type="button" className="player__exit">Exit</button>
 
         <div className="player__controls">
           <div className="player__controls-row">
@@ -43,7 +61,7 @@ function PlayerScreen(): JSX.Element {
               <progress className="player__progress" value="30" max="100"></progress>
               <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
             </div>
-            <div className="player__time-value">1:30:29</div>
+            <div className="player__time-value">{convertMinsToHours(film.runTime)}</div>
           </div>
 
           <div className="player__controls-row">
