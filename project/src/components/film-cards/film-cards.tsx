@@ -7,13 +7,19 @@ type FilmCardsProps = {
 }
 
 function FilmCards({films}: FilmCardsProps): JSX.Element {
-  const [activeFilm, setActiveFilm] = useState(0);
-  // eslint-disable-next-line no-console
-  console.log(activeFilm);
+  const [activePlayer, setActivePlayer] = useState(-1);
 
   return (
     <div className="catalog__films-list">
-      {films.map((film) => <FilmCard key={film.id} film={film} onMouseOver={(id: number) => setActiveFilm(id)} />)}
+      {films.map((film) => (
+        <FilmCard
+          key={film.id}
+          film={film}
+          isPlaying={film.id === activePlayer}
+          onFilmCardMouseOver={() => setActivePlayer(film.id)}
+          onFilmCardMouseOut={() => setActivePlayer(-1)}
+        />
+      ))}
     </div>
   );
 }
