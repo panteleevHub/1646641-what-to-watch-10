@@ -2,7 +2,7 @@ import {Review} from '../types/review';
 
 export const reviews: Review[] = [
   {
-    comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director&apos;s funniest and most exquisitely designed films in years.',
+    comment: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director\'s funniest and most exquisitely designed films in years.',
     date: 'Mon Jul 18 2022 11:38:13 GMT+0300 (Москва, стандартное время)',
     id: 0,
     rating: 8.9,
@@ -22,7 +22,7 @@ export const reviews: Review[] = [
     },
   },
   {
-    comment: 'Anderson&apos;s films are too precious for some, but for those of us willing to lose ourselves in them, they&apos;re a delight. "The Grand Budapest Hotel" is no different, except that he has added a hint of gravitas to the mix, improving the recipe.',
+    comment: 'Anderson\'s films are too precious for some, but for those of us willing to lose ourselves in them, they\'re a delight. "The Grand Budapest Hotel" is no different, except that he has added a hint of gravitas to the mix, improving the recipe.',
     date: 'Wen Nov 18 2015 10:09:13 GMT+0300 (Москва, стандартное время)',
     id: 2,
     rating: 8.0,
@@ -42,9 +42,9 @@ export const reviews: Review[] = [
     },
   },
   {
-    comment: 'I didn&apos;t find it amusing, and while I can appreciate the creativity, it&apos;s an hour and 40 minutes I wish I could take back.',
+    comment: 'I didn\'t find it amusing, and while I can appreciate the creativity, it\'s an hour and 40 minutes I wish I could take back.',
     date: 'Mon Jul 18 2022 11:38:13 GMT+0300 (Москва, стандартное время)',
-    id: 3,
+    id: 4,
     rating: 8.0,
     user: {
       id: 1,

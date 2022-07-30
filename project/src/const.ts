@@ -36,10 +36,17 @@ const FilmPreview = {
   Height: '175',
 } as const;
 
+const FilmInfo = {
+  Overview: 'overview',
+  Details: 'details',
+  Reviews: 'reviews',
+} as const;
+
 export {
   AppRoute,
   AuthorizationStatus,
   Rating,
   RatingDescription,
-  FilmPreview
+  FilmPreview,
+  FilmInfo,
 };

@@ -6,17 +6,19 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import FilmScreen from '../../pages/film-screen/film-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
-import NotFoundscreen from '../../pages/not-found-screen/not-found-screen';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import {Film} from '../../types/film';
+import {Review} from '../../types/review';
 
 type AppProps = {
   films: Film[],
   promoFilm: Film,
+  reviews: Review[],
 }
 
-function App({films, promoFilm}: AppProps): JSX.Element {
+function App({films, promoFilm, reviews}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -44,7 +46,7 @@ function App({films, promoFilm}: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Film}
-          element={<FilmScreen films={films} />}
+          element={<FilmScreen films={films} reviews={reviews} />}
         />
         <Route
           path={AppRoute.AddReview}
@@ -60,7 +62,7 @@ function App({films, promoFilm}: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.NotFound}
-          element={<NotFoundscreen />}
+          element={<NotFoundScreen />}
         />
       </Routes>
     </BrowserRouter>

@@ -1,10 +1,10 @@
-import React from 'react';
+import {Fragment} from 'react';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 
 function SignInScreen(): JSX.Element {
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -60,7 +60,7 @@ function SignInScreen(): JSX.Element {
 
         <Footer />
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }
 
