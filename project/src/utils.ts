@@ -27,14 +27,14 @@ const convertMinsToHours = (mins: number): string => {
   const minutes = mins % MINS_IN_HOUR;
 
   if (mins < MINS_IN_HOUR) {
-    return `${minutes}:00`;
+    return `${minutes}m`;
   }
 
   if (mins % MINS_IN_HOUR === 0) {
-    return `${hours}:00:00`;
+    return `${hours}h`;
   }
 
-  return `${hours}:${minutes}:00`;
+  return `${hours}h ${minutes}m`;
 };
 
 export {

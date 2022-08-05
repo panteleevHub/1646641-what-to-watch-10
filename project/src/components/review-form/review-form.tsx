@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import {Fragment, ChangeEvent, useState} from 'react';
 
 const STARS_COUNT = 10;
 
@@ -17,10 +17,10 @@ function ReviewForm (): JSX.Element {
     const key = STARS_COUNT - index;
 
     return (
-      <React.Fragment key={key}>
+      <Fragment key={key}>
         <input onChange={handleFieldChange} className="rating__input" id={`star-${key}`} type="radio" name="rating" value={`${key}`} />
         <label className="rating__label" htmlFor={`star-${key}`}>{`Rating ${key}`}</label>
-      </React.Fragment>
+      </Fragment>
     );
   });
 

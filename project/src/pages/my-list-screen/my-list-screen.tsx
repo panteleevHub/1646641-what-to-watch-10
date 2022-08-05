@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
@@ -13,7 +13,7 @@ function MyList({films}: MyListProps): JSX.Element {
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -60,7 +60,7 @@ function MyList({films}: MyListProps): JSX.Element {
 
         <Footer />
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

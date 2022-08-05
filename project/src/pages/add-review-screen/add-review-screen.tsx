@@ -1,11 +1,11 @@
-import React from 'react';
+import {Fragment} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
 import {Film} from '../../types/film';
-import NotFoundscreen from '../not-found-screen/not-found-screen';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type AddReviewProps = {
   films: Film[],
@@ -16,13 +16,13 @@ function AddReviewScreen({films}: AddReviewProps): JSX.Element {
   const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
 
   if (!film) {
-    return <NotFoundscreen />;
+    return <NotFoundScreen />;
   }
 
   const filmPath = `/films/${film.id}`;
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -87,7 +87,7 @@ function AddReviewScreen({films}: AddReviewProps): JSX.Element {
         </div>
 
       </section>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

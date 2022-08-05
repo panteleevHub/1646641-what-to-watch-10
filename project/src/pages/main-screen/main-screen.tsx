@@ -1,4 +1,4 @@
-import React from 'react';
+import {Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
@@ -18,7 +18,7 @@ function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -142,7 +142,7 @@ function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
 
         <Footer />
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }
 

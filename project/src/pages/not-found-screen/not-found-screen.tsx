@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function NotFoundscreen(): JSX.Element {
+function NotFoundScreen(): JSX.Element {
   return (
     <section style={{textAlign: 'center'}}>
       <h1>404. Page not found</h1>
@@ -9,4 +9,4 @@ function NotFoundscreen(): JSX.Element {
   );
 }
 
-export default NotFoundscreen;
+export default NotFoundScreen;

@@ -1,33 +1,38 @@
-import React from 'react';
+import {Fragment} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
+import FilmTabs from '../../components/film-tabs/film-tabs';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
 import {Film} from '../../types/film';
-import {getRatingDescription} from '../../utils';
-import NotFoundscreen from '../not-found-screen/not-found-screen';
+import {Review} from '../../types/review';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+
+const SIMILAR_FILMS_COUNT = 4;
 
 type FilmProps = {
   films: Film[],
+  reviews: Review[],
 }
 
-function FilmScreen({films}: FilmProps): JSX.Element {
+function FilmScreen({films, reviews}: FilmProps): JSX.Element {
   const params = useParams();
-  const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
+  const film = films.find((filmData) => String(filmData.id) === params.id);
 
   if (!film) {
-    return <NotFoundscreen />;
+    return <NotFoundScreen />;
   }
 
   const favoriteFilms = films.filter((filmData) => filmData.isFavorite);
+  const similarFilms = films.filter((filmData) => filmData.genre === film.genre && filmData.id !== film.id);
 
   const playerPath = `/player/${film.id}`;
   const reviewPath = `/films/${film.id}/review`;
 
   return (
-    <React.Fragment>
+    <Fragment>
       <div className="visually-hidden">
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
           <symbol id="add" viewBox="0 0 19 20">
@@ -106,38 +111,7 @@ function FilmScreen({films}: FilmProps): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width="218" height="327" />
             </div>
-
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#overview" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#details" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#reviews" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{getRatingDescription(film.rating)}</span>
-                  <span className="film-rating__count">{film.scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {film.starring.join(', ')} and other</strong></p>
-              </div>
-            </div>
+            <FilmTabs film={film} reviews={reviews} />
           </div>
         </div>
       </section>
@@ -146,12 +120,12 @@ function FilmScreen({films}: FilmProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmCards films={films.slice(0, 4)} />
+          <FilmCards films={similarFilms.slice(0, Math.min(SIMILAR_FILMS_COUNT, similarFilms.length))} />
         </section>
 
         <Footer />
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 }
 
