@@ -1,4 +1,5 @@
-import {Rating, RatingDescription} from './const';
+import {INITIAL_GENRE, Rating, RatingDescription} from './const';
+import {Film} from './types/film';
 
 const MINS_IN_HOUR = 60;
 
@@ -37,7 +38,17 @@ const convertMinsToHours = (mins: number): string => {
   return `${hours}h ${minutes}m`;
 };
 
+const getGenresList = (films: Film[]): string[] => {
+  const genres: Set<string> = new Set();
+  genres.add(INITIAL_GENRE);
+
+  films.forEach(({genre}) => genres.add(genre));
+
+  return [...genres];
+};
+
 export {
   getRatingDescription,
   convertMinsToHours,
+  getGenresList,
 };

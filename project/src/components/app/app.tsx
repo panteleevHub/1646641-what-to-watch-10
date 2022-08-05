@@ -27,7 +27,6 @@ function App({films, promoFilm, reviews}: AppProps): JSX.Element {
           path={AppRoute.Main}
           element={
             <MainScreen
-              films={films}
               promoFilm={promoFilm}
             />
           }

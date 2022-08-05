@@ -2,20 +2,34 @@ import {Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
+import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute} from '../../const';
+import {AppRoute, INITIAL_GENRE} from '../../const';
+import {useAppSelector} from '../../hooks';
 import {Film} from '../../types/film';
 
 type FilmPreviewProps = {
-  films: Film[],
   promoFilm: Film,
 }
 
-function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
+function MainScreen({promoFilm}: FilmPreviewProps): JSX.Element {
   const playerPath = `/player/${promoFilm.id}`;
 
+  const films = useAppSelector((state) => state.films);
+  const currentGenre = useAppSelector((state) => state.genre);
+
   const favoriteFilms = films.filter((film) => film.isFavorite);
+
+  const filterFilms = () => {
+    if (currentGenre === INITIAL_GENRE) {
+      return films;
+    }
+
+    return films.filter(({genre}) => genre === currentGenre);
+  };
+
+  const filteredFilms = filterFilms();
 
   return (
     <Fragment>
@@ -77,13 +91,13 @@ function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <Link to={playerPath} className="btn btn--play film-card__button" type="button">
+                <Link to={playerPath} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.MyList} className="btn btn--list film-card__button" type="button">
+                <Link to={AppRoute.CurrentPage} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -99,41 +113,8 @@ function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#genres" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#comedies" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#crime" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#documentary" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#dramas" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#horror" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#family" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#romance" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#sci-fi" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#thrillers" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-
-          <FilmCards films={films} />
+          <Genres films={films} />
+          <FilmCards films={filteredFilms} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Film} from '../../types/film';
 import VideoPlayer from '../../components/video-player/video-player';
 import {FilmPreview} from '../../const';
@@ -13,10 +13,12 @@ type FilmCardProps = {
 function FilmCard(props: FilmCardProps): JSX.Element {
   const {film, onFilmCardMouseOver, onFilmCardMouseOut, isPlaying} = props;
 
+  const navigate = useNavigate();
+
   const filmPath = `/films/${film.id}`;
 
   return (
-    <article className="small-film-card catalog__films-card" onMouseOver={onFilmCardMouseOver} onMouseOut={onFilmCardMouseOut}>
+    <article onClick={() => navigate(filmPath)} className="small-film-card catalog__films-card" onMouseOver={onFilmCardMouseOver} onMouseOut={onFilmCardMouseOut}>
       <div className="small-film-card__image">
         {isPlaying ?
           <VideoPlayer

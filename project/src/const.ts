@@ -1,3 +1,5 @@
+const INITIAL_GENRE = 'All genres';
+
 const AppRoute = {
   Main: '/',
   SignIn: '/login',
@@ -43,6 +45,7 @@ const FilmInfo = {
 } as const;
 
 export {
+  INITIAL_GENRE,
   AppRoute,
   AuthorizationStatus,
   Rating,
