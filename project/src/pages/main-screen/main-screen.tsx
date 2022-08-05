@@ -1,16 +1,22 @@
 import React from 'react';
-import FilmCard from '../../components/film-card/film-card';
+import {Link} from 'react-router-dom';
+import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
+import {AppRoute} from '../../const';
+import {Film} from '../../types/film';
 
 type FilmPreviewProps = {
-  title: string,
-  genre: string,
-  releaseDate: number,
+  films: Film[],
+  promoFilm: Film,
 }
 
-function MainScreen({title, genre, releaseDate}: FilmPreviewProps): JSX.Element {
+function MainScreen({films, promoFilm}: FilmPreviewProps): JSX.Element {
+  const playerPath = `/player/${promoFilm.id}`;
+
+  const favoriteFilms = films.filter((film) => film.isFavorite);
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -47,7 +53,7 @@ function MainScreen({title, genre, releaseDate}: FilmPreviewProps): JSX.Element 
 
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -60,30 +66,30 @@ function MainScreen({title, genre, releaseDate}: FilmPreviewProps): JSX.Element 
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={promoFilm.posterImage} alt={promoFilm.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{releaseDate}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={playerPath} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
+                </Link>
+                <Link to={AppRoute.MyList} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -127,28 +133,7 @@ function MainScreen({title, genre, releaseDate}: FilmPreviewProps): JSX.Element 
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-            <FilmCard />
-          </div>
+          <FilmCards films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
