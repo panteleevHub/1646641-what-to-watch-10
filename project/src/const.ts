@@ -31,9 +31,15 @@ const RatingDescription = {
   Awesome: 'Awesome',
 } as const;
 
+const FilmPreview = {
+  Width: '280',
+  Height: '175',
+} as const;
+
 export {
   AppRoute,
   AuthorizationStatus,
   Rating,
   RatingDescription,
+  FilmPreview
 };
