@@ -4,24 +4,21 @@ import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
 import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, INITIAL_GENRE} from '../../const';
 import {useAppSelector} from '../../hooks';
-import {Film} from '../../types/film';
+import {Films} from '../../types/film';
 
-type FilmPreviewProps = {
-  promoFilm: Film,
-}
+// const FILMS_TO_RENDER_COUNT = 8;
 
-function MainScreen({promoFilm}: FilmPreviewProps): JSX.Element {
-  const playerPath = `/player/${promoFilm.id}`;
-
-  const films = useAppSelector((state) => state.films);
+function MainScreen(): JSX.Element {
+  const {films, promoFilm} = useAppSelector((state) => state);
   const currentGenre = useAppSelector((state) => state.genre);
 
-  const favoriteFilms = films.filter((film) => film.isFavorite);
+  const playerPath = AppRoute.Player.replace(':id', `${promoFilm.id}`);
 
-  const filterFilms = () => {
+  const filterFilms = (): Films => {
     if (currentGenre === INITIAL_GENRE) {
       return films;
     }
@@ -29,7 +26,7 @@ function MainScreen({promoFilm}: FilmPreviewProps): JSX.Element {
     return films.filter(({genre}) => genre === currentGenre);
   };
 
-  const filteredFilms = filterFilms();
+  const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
     <Fragment>
@@ -114,10 +111,10 @@ function MainScreen({promoFilm}: FilmPreviewProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <Genres films={films} />
-          <FilmCards films={filteredFilms} />
+          <FilmCards films={filterFilms()} />
 
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            <ShowMoreButton />
           </div>
         </section>
 

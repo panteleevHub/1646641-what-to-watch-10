@@ -2,19 +2,19 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import {Fragment} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import {Film} from '../../types/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 const NAVIGATE_DELTA = -1;
 const MINS_IN_HOUR = 60;
 
-type PlayerProps = {
-  films: Film[],
-}
+function PlayerScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
 
-function PlayerScreen({films}: PlayerProps): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
+
   const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
 
   if (!film) {

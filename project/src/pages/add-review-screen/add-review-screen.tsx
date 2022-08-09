@@ -4,22 +4,22 @@ import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
+import {useAppSelector} from '../../hooks';
 import {Film} from '../../types/film';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-type AddReviewProps = {
-  films: Film[],
-}
+function AddReviewScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
 
-function AddReviewScreen({films}: AddReviewProps): JSX.Element {
   const params = useParams();
+
   const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
 
   if (!film) {
     return <NotFoundScreen />;
   }
 
-  const filmPath = `/films/${film.id}`;
+  const filmPath = AppRoute.Film.replace(':id', `${film.id}`);
 
   return (
     <Fragment>

@@ -11,6 +11,18 @@ const AppRoute = {
   CurrentPage: '#',
 } as const;
 
+const APIRoute = {
+  Films: '/films',
+  SimilarFilms: 'films/id/similar',
+  FavoriteFilms: '/favorite',
+  FavoriteFilmsStatus: '/favorite/id/status',
+  Film: '/films/id',
+  PromoFilm: '/promo',
+  Reviews: '/comments/id',
+  Login: '/login',
+  Logout: '/logout',
+} as const;
+
 const AuthorizationStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
@@ -47,6 +59,7 @@ const FilmInfo = {
 export {
   INITIAL_GENRE,
   AppRoute,
+  APIRoute,
   AuthorizationStatus,
   Rating,
   RatingDescription,

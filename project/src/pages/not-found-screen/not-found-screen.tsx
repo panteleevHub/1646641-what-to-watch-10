@@ -1,10 +1,11 @@
 import {Link} from 'react-router-dom';
+import './not-found-screen.css';
 
 function NotFoundScreen(): JSX.Element {
   return (
-    <section style={{textAlign: 'center'}}>
+    <section className="not-found">
       <h1>404. Page not found</h1>
-      <Link to="/">Вернуться на главную</Link>
+      <Link to="/" className='not-found__link'>Вернуться на главную</Link>
     </section>
   );
 }
