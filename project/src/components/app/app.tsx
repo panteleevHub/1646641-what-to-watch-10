@@ -1,5 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import MainScreen from '../../pages/main-screen/main-screen';
 import MyList from '../../pages/my-list-screen/my-list-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
@@ -11,11 +11,12 @@ import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import {useAppSelector} from '../../hooks';
+import {isCheckedAuth} from '../../utils';
 
 function App(): JSX.Element {
-  const {isDataLoading} = useAppSelector((state) => state);
+  const {isDataLoading, authorizationStatus} = useAppSelector((state) => state);
 
-  if (isDataLoading) {
+  if (isCheckedAuth(authorizationStatus) || isDataLoading) {
     return <LoadingScreen />;
   }
 
@@ -36,7 +37,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.MyList}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <MyList />
             </PrivateRoute>
           }
@@ -48,7 +49,7 @@ function App(): JSX.Element {
         <Route
           path={AppRoute.AddReview}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <AddReviewScreen />
             </PrivateRoute>
           }

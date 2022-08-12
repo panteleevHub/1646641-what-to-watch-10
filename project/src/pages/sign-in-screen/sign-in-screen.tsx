@@ -1,8 +1,35 @@
-import {Fragment} from 'react';
+import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
+import {Navigate} from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {loginAction} from '../../services/api-actions';
+import {AuthData} from '../../types/auth-data';
 
 function SignInScreen(): JSX.Element {
+  const [userData, setUserData] = useState<AuthData>({
+    email: '',
+    password: '',
+  });
+
+  const dispatch = useAppDispatch();
+  const {authorizationStatus} = useAppSelector((state) => state);
+
+  const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = target;
+    setUserData({...userData, [name]: value});
+  };
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(loginAction(userData));
+  };
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
+  }
+
   return (
     <Fragment>
       <div className="visually-hidden">
@@ -41,14 +68,14 @@ function SignInScreen(): JSX.Element {
         </header>
 
         <div className="sign-in user-page__content">
-          <form action="#" className="sign-in__form">
+          <form onSubmit={handleFormSubmit} action="#" className="sign-in__form">
             <div className="sign-in__fields">
               <div className="sign-in__field">
-                <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+                <input onChange={handleInputChange} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" value={userData.email} />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
               <div className="sign-in__field">
-                <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+                <input onChange={handleInputChange} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" value={userData.password} />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>
             </div>

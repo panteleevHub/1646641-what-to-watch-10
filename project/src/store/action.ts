@@ -8,41 +8,57 @@ const changeGenre = createAction(
   })
 );
 
-const loadFilms = createAction(
-  'filter/loadFilms',
+const resetGenres = createAction('filter/resetGenres');
+
+const setFilms = createAction(
+  'data/setFilms',
   (films: Films) => ({
     payload: films,
   })
 );
 
-const loadFavoriteFilms = createAction(
-  'filter/loadFavoriteFilms',
+const setFavoriteFilms = createAction(
+  'data/setFavoriteFilms',
   (films: Films) => ({
     payload: films,
   })
 );
 
-const loadPromoFilm = createAction(
-  'filter/loadPromoFilm',
+const setPromoFilm = createAction(
+  'data/setPromoFilm',
   (film: Film) => ({
     payload: film,
   })
 );
 
 const setDataLoadingStatus = createAction(
-  'filter/setDataLoadedStatus',
+  'data/setDataLoadingStatus',
   (isDataLoaded: boolean) => ({
     payload: isDataLoaded,
   })
 );
 
-const resetGenres = createAction('filter/resetGenres');
+const setAuthorizationStatus = createAction(
+  'user/setAuthorizationStatus',
+  (status: string) => ({
+    payload: status,
+  })
+);
+
+const setUserAvatar = createAction(
+  'user/setUserAvatar',
+  (avatar: string) => ({
+    payload: avatar,
+  })
+);
 
 export {
   changeGenre,
-  loadFilms,
-  loadFavoriteFilms,
-  loadPromoFilm,
-  setDataLoadingStatus,
   resetGenres,
+  setFilms,
+  setFavoriteFilms,
+  setPromoFilm,
+  setDataLoadingStatus,
+  setAuthorizationStatus,
+  setUserAvatar,
 };
