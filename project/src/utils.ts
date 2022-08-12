@@ -1,4 +1,4 @@
-import {INITIAL_GENRE, Rating, RatingDescription} from './const';
+import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from './const';
 import {Film} from './types/film';
 
 const MINS_IN_HOUR = 60;
@@ -47,8 +47,11 @@ const getGenresList = (films: Film[]): string[] => {
   return [...genres];
 };
 
+const isCheckedAuth = (authorizationStatus: string): boolean => authorizationStatus === AuthorizationStatus.Unknown;
+
 export {
   getRatingDescription,
   convertMinsToHours,
   getGenresList,
+  isCheckedAuth,
 };
