@@ -9,14 +9,15 @@ import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, INITIAL_GENRE} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {Films} from '../../types/film';
+import {createAppRoute} from '../../utils';
 
 // const FILMS_TO_RENDER_COUNT = 8;
 
 function MainScreen(): JSX.Element {
-  const {films, promoFilm} = useAppSelector((state) => state);
+  const {films, promoFilm, favoriteFilms} = useAppSelector((state) => state);
   const currentGenre = useAppSelector((state) => state.genre);
 
-  const playerPath = AppRoute.Player.replace(':id', `${promoFilm.id}`);
+  const playerPath = createAppRoute(AppRoute.Player, promoFilm.id);
 
   const filterFilms = (): Films => {
     if (currentGenre === INITIAL_GENRE) {
@@ -25,8 +26,6 @@ function MainScreen(): JSX.Element {
 
     return films.filter(({genre}) => genre === currentGenre);
   };
-
-  const favoriteFilms = films.filter((film) => film.isFavorite);
 
   return (
     <Fragment>

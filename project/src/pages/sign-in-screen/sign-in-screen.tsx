@@ -1,9 +1,7 @@
 import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
-import {Navigate} from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../services/api-actions';
 import {AuthData} from '../../types/auth-data';
 
@@ -14,7 +12,6 @@ function SignInScreen(): JSX.Element {
   });
 
   const dispatch = useAppDispatch();
-  const {authorizationStatus} = useAppSelector((state) => state);
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
@@ -23,12 +20,8 @@ function SignInScreen(): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction(userData));
+    dispatch(loginAction({...userData}));
   };
-
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Main} />;
-  }
 
   return (
     <Fragment>

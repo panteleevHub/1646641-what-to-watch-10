@@ -1,32 +1,40 @@
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
-// import FilmTabs from '../../components/film-tabs/film-tabs';
+import FilmTabs from '../../components/film-tabs/film-tabs';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute} from '../../const';
-import {useAppSelector} from '../../hooks';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
-
-const SIMILAR_FILMS_COUNT = 4;
+import {AppRoute, AuthorizationStatus, INITIAL_FILM_ID} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFilmAction, fetchFilmReviewsAction, fetchSimilarFilmsAction} from '../../services/api-actions';
+import {createAppRoute} from '../../utils';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function FilmScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {authorizationStatus, favoriteFilms, filmData} = useAppSelector((state) => state);
 
+  const {film, reviews, similarFilms} = filmData;
+
+  const dispatch = useAppDispatch();
   const params = useParams();
 
-  const film = films.find((filmData) => String(filmData.id) === params.id);
+  const filmId = Number(params.id);
 
-  if (!film) {
-    return <NotFoundScreen />;
+  const playerPath = createAppRoute(AppRoute.Player, filmId);
+  const reviewPath = createAppRoute(AppRoute.AddReview, filmId);
+
+  useEffect(() => {
+
+    dispatch(fetchFilmAction(filmId));
+    dispatch(fetchFilmReviewsAction(filmId));
+    dispatch(fetchSimilarFilmsAction(filmId));
+
+  }, [dispatch, filmId]);
+
+  if (film.id === INITIAL_FILM_ID) {
+    return <LoadingScreen />;
   }
-
-  const favoriteFilms = films.filter((filmData) => filmData.isFavorite);
-  const similarFilms = films.filter((filmData) => filmData.genre === film.genre && filmData.id !== film.id);
-
-  const playerPath = AppRoute.Player.replace(':id', `${film.id}`);
-  const reviewPath = AppRoute.AddReview.replace(':id', `${film.id}`);
 
   return (
     <Fragment>
@@ -97,7 +105,9 @@ function FilmScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{favoriteFilms.length}</span>
                 </Link>
-                <Link to={reviewPath} className="btn film-card__button">Add review</Link>
+                {authorizationStatus === AuthorizationStatus.Auth
+                &&
+                <Link to={reviewPath} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -108,7 +118,7 @@ function FilmScreen(): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width="218" height="327" />
             </div>
-            {/*<FilmTabs film={film} reviews={reviews} />*/}
+            <FilmTabs film={film} reviews={reviews} />
           </div>
         </div>
       </section>
@@ -117,7 +127,7 @@ function FilmScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmCards films={similarFilms.slice(0, Math.min(SIMILAR_FILMS_COUNT, similarFilms.length))} />
+          <FilmCards films={similarFilms} />
         </section>
 
         <Footer />

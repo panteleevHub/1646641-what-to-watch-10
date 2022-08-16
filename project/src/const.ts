@@ -1,5 +1,7 @@
 const INITIAL_GENRE = 'All genres';
 
+const INITIAL_FILM_ID = 0;
+
 const AppRoute = {
   Main: '/',
   SignIn: '/login',
@@ -58,6 +60,7 @@ const FilmInfo = {
 
 export {
   INITIAL_GENRE,
+  INITIAL_FILM_ID,
   AppRoute,
   APIRoute,
   AuthorizationStatus,

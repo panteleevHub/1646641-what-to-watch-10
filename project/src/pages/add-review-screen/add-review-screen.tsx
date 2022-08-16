@@ -1,25 +1,31 @@
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute} from '../../const';
-import {useAppSelector} from '../../hooks';
-import {Film} from '../../types/film';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {AppRoute, INITIAL_FILM_ID} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFilmAction} from '../../services/api-actions';
+import {createAppRoute} from '../../utils';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function AddReviewScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {film} = useAppSelector((state) => state.filmData);
 
+  const dispatch = useAppDispatch();
   const params = useParams();
 
-  const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
+  const filmId = Number(params.id);
 
-  if (!film) {
-    return <NotFoundScreen />;
+  const filmPath = createAppRoute(AppRoute.Film, filmId);
+
+  useEffect(() => {
+    dispatch(fetchFilmAction(filmId));
+  }, [dispatch, filmId]);
+
+  if (film.id === INITIAL_FILM_ID) {
+    return <LoadingScreen />;
   }
-
-  const filmPath = AppRoute.Film.replace(':id', `${film.id}`);
 
   return (
     <Fragment>
@@ -83,7 +89,7 @@ function AddReviewScreen(): JSX.Element {
         </div>
 
         <div className="add-review">
-          <ReviewForm />
+          <ReviewForm filmId={film.id} />
         </div>
 
       </section>

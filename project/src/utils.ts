@@ -49,9 +49,14 @@ const getGenresList = (films: Film[]): string[] => {
 
 const isCheckedAuth = (authorizationStatus: string): boolean => authorizationStatus === AuthorizationStatus.Unknown;
 
+const createAPIRoute = (route: string, id: number) => route.replace('id', `${id}`);
+const createAppRoute = (route: string, id: number) => route.replace(':id', `${id}`);
+
 export {
   getRatingDescription,
   convertMinsToHours,
   getGenresList,
   isCheckedAuth,
+  createAPIRoute,
+  createAppRoute,
 };
