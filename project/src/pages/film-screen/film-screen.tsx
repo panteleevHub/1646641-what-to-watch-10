@@ -1,24 +1,21 @@
 import {Fragment} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
-import FilmTabs from '../../components/film-tabs/film-tabs';
+// import FilmTabs from '../../components/film-tabs/film-tabs';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
-import {Film} from '../../types/film';
-import {Review} from '../../types/review';
+import {useAppSelector} from '../../hooks';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 const SIMILAR_FILMS_COUNT = 4;
 
-type FilmProps = {
-  films: Film[],
-  reviews: Review[],
-}
+function FilmScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
 
-function FilmScreen({films, reviews}: FilmProps): JSX.Element {
   const params = useParams();
+
   const film = films.find((filmData) => String(filmData.id) === params.id);
 
   if (!film) {
@@ -28,8 +25,8 @@ function FilmScreen({films, reviews}: FilmProps): JSX.Element {
   const favoriteFilms = films.filter((filmData) => filmData.isFavorite);
   const similarFilms = films.filter((filmData) => filmData.genre === film.genre && filmData.id !== film.id);
 
-  const playerPath = `/player/${film.id}`;
-  const reviewPath = `/films/${film.id}/review`;
+  const playerPath = AppRoute.Player.replace(':id', `${film.id}`);
+  const reviewPath = AppRoute.AddReview.replace(':id', `${film.id}`);
 
   return (
     <Fragment>
@@ -111,7 +108,7 @@ function FilmScreen({films, reviews}: FilmProps): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width="218" height="327" />
             </div>
-            <FilmTabs film={film} reviews={reviews} />
+            {/*<FilmTabs film={film} reviews={reviews} />*/}
           </div>
         </div>
       </section>

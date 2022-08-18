@@ -28,6 +28,8 @@ function FilmTabs ({film, reviews}: FilmTabsProps): JSX.Element {
         return <Details film={film} />;
       case FilmInfo.Reviews:
         return <Reviews reviews={reviews} />;
+      default:
+        throw new Error('Unexpected Tab value');
     }
   };
 

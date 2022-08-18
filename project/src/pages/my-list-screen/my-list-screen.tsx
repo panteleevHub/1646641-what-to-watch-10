@@ -3,14 +3,11 @@ import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
-import {Film} from '../../types/film';
+import {useAppSelector} from '../../hooks';
 
-type MyListProps = {
-  films: Film[],
-}
 
-function MyList({films}: MyListProps): JSX.Element {
-  const favoriteFilms = films.filter((film) => film.isFavorite);
+function MyList(): JSX.Element {
+  const {favoriteFilms} = useAppSelector((state) => state);
 
   return (
     <Fragment>
