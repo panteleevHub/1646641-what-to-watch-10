@@ -1,13 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {INITIAL_GENRE} from '../const';
+import {AuthorizationStatus, INITIAL_GENRE} from '../const';
 import {Film, Films} from '../types/film';
 import {
   changeGenre,
-  loadFilms,
-  loadFavoriteFilms,
+  setFilms,
+  setFavoriteFilms,
   resetGenres,
-  loadPromoFilm,
+  setPromoFilm,
   setDataLoadingStatus,
+  setAuthorizationStatus,
+  setUserAvatar,
 } from './action';
 
 
@@ -17,6 +19,8 @@ type InitialState = {
   favoriteFilms: Films,
   promoFilm: Film,
   isDataLoading: boolean,
+  authorizationStatus: string,
+  userAvatar: string,
 };
 
 const initialState: InitialState = {
@@ -43,9 +47,11 @@ const initialState: InitialState = {
     isFavorite: false
   },
   isDataLoading: true,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userAvatar: '',
 };
 
-const filterReducer = createReducer(initialState, (builder) => {
+const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeGenre, (state, action) => {
       state.genre = action.payload;
@@ -53,18 +59,24 @@ const filterReducer = createReducer(initialState, (builder) => {
     .addCase(resetGenres, (state) => {
       state.genre = INITIAL_GENRE;
     })
-    .addCase(loadFilms, (state, action) => {
+    .addCase(setFilms, (state, action) => {
       state.films = action.payload;
     })
-    .addCase(loadFavoriteFilms, (state, action) => {
-      state.films = action.payload;
+    .addCase(setFavoriteFilms, (state, action) => {
+      state.favoriteFilms = action.payload;
     })
-    .addCase(loadPromoFilm, (state, action) => {
+    .addCase(setPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
     })
     .addCase(setDataLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;
+    })
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserAvatar, (state, action) => {
+      state.userAvatar = action.payload;
     });
 });
 
-export {filterReducer};
+export {reducer};
