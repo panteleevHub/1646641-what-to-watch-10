@@ -8,14 +8,18 @@ import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, INITIAL_GENRE} from '../../const';
 import {useAppSelector} from '../../hooks';
+import {getFavoriteFilms, getFilms, getPromoFilm} from '../../store/app-data/selectors';
+import {getCurrentGenre} from '../../store/filter-data/selectors';
 import {Films} from '../../types/film';
 import {createAppRoute} from '../../utils';
 
 // const FILMS_TO_RENDER_COUNT = 8;
 
 function MainScreen(): JSX.Element {
-  const {films, promoFilm, favoriteFilms} = useAppSelector((state) => state);
-  const currentGenre = useAppSelector((state) => state.genre);
+  const films = useAppSelector(getFilms);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const currentGenre = useAppSelector(getCurrentGenre);
 
   const playerPath = createAppRoute(AppRoute.Player, promoFilm.id);
 

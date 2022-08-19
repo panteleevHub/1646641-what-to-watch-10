@@ -6,11 +6,12 @@ import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, INITIAL_FILM_ID} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction} from '../../services/api-actions';
+import {getFilm} from '../../store/app-data/selectors';
 import {createAppRoute} from '../../utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function AddReviewScreen(): JSX.Element {
-  const {film} = useAppSelector((state) => state.filmData);
+  const film = useAppSelector(getFilm);
 
   const dispatch = useAppDispatch();
   const params = useParams();

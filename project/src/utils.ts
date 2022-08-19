@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from './const';
 import {Film} from './types/film';
 
@@ -38,6 +40,16 @@ const convertMinsToHours = (mins: number): string => {
   return `${hours}h ${minutes}m`;
 };
 
+const convertToPlaybackTime = (runTime: number) => {
+  dayjs.extend(duration);
+
+  if (runTime < MINS_IN_HOUR) {
+    return dayjs.duration(runTime, 'minutes').format('mm:ss');
+  }
+
+  return dayjs.duration(runTime, 'minutes').format('HH:mm:ss');
+};
+
 const getGenresList = (films: Film[]): string[] => {
   const genres: Set<string> = new Set();
   genres.add(INITIAL_GENRE);
@@ -55,6 +67,7 @@ const createAppRoute = (route: string, id: number) => route.replace(':id', `${id
 export {
   getRatingDescription,
   convertMinsToHours,
+  convertToPlaybackTime,
   getGenresList,
   isCheckedAuth,
   createAPIRoute,

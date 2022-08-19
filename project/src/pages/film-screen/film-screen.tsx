@@ -8,13 +8,17 @@ import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, AuthorizationStatus, INITIAL_FILM_ID} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction, fetchFilmReviewsAction, fetchSimilarFilmsAction} from '../../services/api-actions';
+import {getFavoriteFilms, getFilm, getFilmReviews, getSimilarFilms} from '../../store/app-data/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {createAppRoute} from '../../utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function FilmScreen(): JSX.Element {
-  const {authorizationStatus, favoriteFilms, filmData} = useAppSelector((state) => state);
-
-  const {film, reviews, similarFilms} = filmData;
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const film = useAppSelector(getFilm);
+  const reviews = useAppSelector(getFilmReviews);
+  const similarFilms = useAppSelector(getSimilarFilms);
 
   const dispatch = useAppDispatch();
   const params = useParams();

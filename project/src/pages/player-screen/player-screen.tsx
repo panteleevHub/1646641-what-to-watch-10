@@ -1,35 +1,24 @@
-import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration';
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import {Film} from '../../types/film';
-import NotFoundScreen from '../not-found-screen/not-found-screen';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchFilmAction} from '../../services/api-actions';
+import {getFilm} from '../../store/app-data/selectors';
+import {convertToPlaybackTime} from '../../utils';
 
 const NAVIGATE_DELTA = -1;
-const MINS_IN_HOUR = 60;
 
 function PlayerScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const film = useAppSelector(getFilm);
 
+  const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
 
-  const film = films.find((filmData) => String(filmData.id) === params.id) as Film;
+  const filmId = Number(params.id);
 
-  if (!film) {
-    return <NotFoundScreen />;
-  }
-
-  const convertToPlaybackTime = () => {
-    dayjs.extend(duration);
-
-    if (film.runTime < MINS_IN_HOUR) {
-      return dayjs.duration(film.runTime, 'minutes').format('mm:ss');
-    }
-
-    return dayjs.duration(film.runTime, 'minutes').format('HH:mm:ss');
-  };
+  useEffect(() => {
+    dispatch(fetchFilmAction(filmId));
+  }, [dispatch, filmId]);
 
   return (
     <Fragment>
@@ -73,7 +62,7 @@ function PlayerScreen(): JSX.Element {
               <progress className="player__progress" value="30" max="100"></progress>
               <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
             </div>
-            <div className="player__time-value">{convertToPlaybackTime()}</div>
+            <div className="player__time-value">{convertToPlaybackTime(film.runTime)}</div>
           </div>
 
           <div className="player__controls-row">

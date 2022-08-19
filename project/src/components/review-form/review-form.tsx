@@ -1,6 +1,7 @@
 import {Fragment, ChangeEvent, useState, FormEvent, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchAddReviewAction} from '../../services/api-actions';
+import {getReviewSendingStatus} from '../../store/app-data/selectors';
 
 const STARS_COUNT = 10;
 
@@ -14,7 +15,8 @@ type ReviewFormProps = {
 }
 
 function ReviewForm ({filmId}: ReviewFormProps): JSX.Element {
-  const isRewiewSending = useAppSelector((state) => state.isReviewSending);
+  const isRewiewSending = useAppSelector(getReviewSendingStatus);
+
   const [formData, setFormData] = useState({
     rating: '',
     review: '',
@@ -26,12 +28,10 @@ function ReviewForm ({filmId}: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const setFormActivity = () => {
-    if (formRef.current === null || submitButtonRef.current === null) {
-      return;
+    if (formRef.current !== null && submitButtonRef.current !== null) {
+      formRef.current.disabled = true;
+      submitButtonRef.current.disabled = true;
     }
-
-    formRef.current.disabled = true;
-    submitButtonRef.current.disabled = true;
   };
 
   const setButtonActivity = () => {

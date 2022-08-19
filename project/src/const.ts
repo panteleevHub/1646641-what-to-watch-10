@@ -31,6 +31,12 @@ const AuthorizationStatus = {
   Unknown: 'UNKNOWN',
 } as const;
 
+const NameSpace = {
+  Filter: 'FILTER',
+  Data: 'DATA',
+  User: 'USER',
+} as const;
+
 const Rating = {
   None: 0,
   Low: 3,
@@ -63,6 +69,7 @@ export {
   INITIAL_FILM_ID,
   AppRoute,
   APIRoute,
+  NameSpace,
   AuthorizationStatus,
   Rating,
   RatingDescription,
