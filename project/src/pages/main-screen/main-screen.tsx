@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import {Link} from 'react-router-dom';
 import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
@@ -6,29 +6,30 @@ import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute, INITIAL_GENRE} from '../../const';
+import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
-import {getFavoriteFilms, getFilms, getPromoFilm} from '../../store/app-data/selectors';
-import {getCurrentGenre} from '../../store/filter-data/selectors';
-import {Films} from '../../types/film';
+import {getFavoriteFilms, getPromoFilm} from '../../store/app-data/selectors';
+import {filterFilms} from '../../store/filter-data/selectors';
 import {createAppRoute} from '../../utils';
 
-// const FILMS_TO_RENDER_COUNT = 8;
+const FILMS_TO_RENDER_COUNT = 8;
 
 function MainScreen(): JSX.Element {
-  const films = useAppSelector(getFilms);
   const promoFilm = useAppSelector(getPromoFilm);
   const favoriteFilms = useAppSelector(getFavoriteFilms);
-  const currentGenre = useAppSelector(getCurrentGenre);
+  const filteredFilms = useAppSelector(filterFilms);
+
+  // const initialFilmsCount = Math.min(filteredFilms.length, FILMS_TO_RENDER_COUNT);
+
+  const [renderedFilmsCount, setRenderedFilmsCount] = useState(FILMS_TO_RENDER_COUNT);
 
   const playerPath = createAppRoute(AppRoute.Player, promoFilm.id);
 
-  const filterFilms = (): Films => {
-    if (currentGenre === INITIAL_GENRE) {
-      return films;
-    }
-
-    return films.filter(({genre}) => genre === currentGenre);
+  const handleShowMoreButtonClick = () => {
+    setRenderedFilmsCount(
+      (prevRenderedFilms) =>
+        prevRenderedFilms + Math.min(FILMS_TO_RENDER_COUNT, filteredFilms.length - prevRenderedFilms)
+    );
   };
 
   return (
@@ -113,11 +114,13 @@ function MainScreen(): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <Genres films={films} />
-          <FilmCards films={filterFilms()} />
+          <Genres onGenreChange={() => setRenderedFilmsCount(FILMS_TO_RENDER_COUNT)} />
+          <FilmCards films={filteredFilms.slice(0, renderedFilmsCount)} />
 
           <div className="catalog__more">
-            <ShowMoreButton />
+            {filteredFilms.length > renderedFilmsCount
+            &&
+            <ShowMoreButton onShowMoreButtonClick={handleShowMoreButtonClick} />}
           </div>
         </section>
 

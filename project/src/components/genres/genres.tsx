@@ -2,16 +2,18 @@ import {Link} from 'react-router-dom';
 import {AppRoute, INITIAL_GENRE} from '../../const';
 import {getGenresList} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {Film} from '../../types/film';
 import {getCurrentGenre} from '../../store/filter-data/selectors';
 import {changeGenre, resetGenres} from '../../store/filter-data/filter-data';
+import {getFilms} from '../../store/app-data/selectors';
 
 type GenresProps = {
-  films: Film[],
+  onGenreChange: () => void,
 }
 
-function Genres({films}: GenresProps): JSX.Element {
+function Genres({onGenreChange}: GenresProps): JSX.Element {
+  const films = useAppSelector(getFilms);
   const currentGenre = useAppSelector(getCurrentGenre);
+
   const dispatch = useAppDispatch();
 
   const genres = getGenresList(films);
@@ -19,10 +21,12 @@ function Genres({films}: GenresProps): JSX.Element {
   const handleGenreChange = (genre: string) => {
     if (genre === INITIAL_GENRE) {
       dispatch(resetGenres());
+      onGenreChange();
       return;
     }
 
     dispatch(changeGenre(genre));
+    onGenreChange();
   };
 
   return (
