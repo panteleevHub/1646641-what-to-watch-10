@@ -1,13 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../../const';
 import {
-  fetchAddReviewAction,
+  addFavoriteFilmAction,
+  addReviewAction,
   fetchFavoriteFilmsAction,
   fetchFilmAction,
   fetchFilmReviewsAction,
   fetchFilmsAction,
   fetchPromoFilmAction,
   fetchSimilarFilmsAction,
+  removeFavoriteFilmAction,
 } from '../../services/api-actions';
 import {Film} from '../../types/film';
 import {AppData} from '../../types/state';
@@ -97,14 +99,28 @@ const appData = createSlice({
       .addCase(fetchSimilarFilmsAction.fulfilled, ({filmData}, action) => {
         filmData.similarFilms = action.payload;
       })
-      .addCase(fetchAddReviewAction.pending, (state) => {
+      .addCase(addReviewAction.pending, (state) => {
         state.isReviewSending = true;
       })
-      .addCase(fetchAddReviewAction.fulfilled, (state) => {
+      .addCase(addReviewAction.fulfilled, (state) => {
         state.isReviewSending = false;
       })
-      .addCase(fetchAddReviewAction.rejected, (state) => {
+      .addCase(addReviewAction.rejected, (state) => {
         state.isReviewSending = false;
+      })
+      .addCase(addFavoriteFilmAction.fulfilled, (state, action) => {
+        if (action.payload.id === state.promoFilm.id) {
+          state.promoFilm = action.payload;
+          return;
+        }
+        state.filmData.film = action.payload;
+      })
+      .addCase(removeFavoriteFilmAction.fulfilled, (state, action) => {
+        if (action.payload.id === state.promoFilm.id) {
+          state.promoFilm = action.payload;
+          return;
+        }
+        state.filmData.film = action.payload;
       });
   },
 });

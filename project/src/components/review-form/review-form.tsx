@@ -1,6 +1,6 @@
 import {Fragment, ChangeEvent, useState, FormEvent, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fetchAddReviewAction} from '../../services/api-actions';
+import {addReviewAction} from '../../services/api-actions';
 import {getReviewSendingStatus} from '../../store/app-data/selectors';
 
 const STARS_COUNT = 10;
@@ -63,7 +63,7 @@ function ReviewForm ({filmId}: ReviewFormProps): JSX.Element {
       filmId,
     };
 
-    dispatch(fetchAddReviewAction(reviewData));
+    dispatch(addReviewAction(reviewData));
   };
 
   if (isRewiewSending) {

@@ -24,7 +24,6 @@ function VideoPlayer(props: VideoPlayerProps): JSX.Element {
     const timeoutId = setTimeout(() => (videoRef.current as HTMLVideoElement).play(), VIDEO_DELAY_TIME);
 
     return () => clearTimeout(timeoutId);
-
   });
 
   return (

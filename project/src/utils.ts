@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from './const';
-import {Film} from './types/film';
+import {Film, Films} from './types/film';
 
 const MINS_IN_HOUR = 60;
 
@@ -40,14 +40,16 @@ const convertMinsToHours = (mins: number): string => {
   return `${hours}h ${minutes}m`;
 };
 
-const convertToPlaybackTime = (runTime: number) => {
+const convertToPlaybackTime = (filmDuration: number, currentTime: number) => {
   dayjs.extend(duration);
 
-  if (runTime < MINS_IN_HOUR) {
-    return dayjs.duration(runTime, 'minutes').format('mm:ss');
+  const remainingTime = filmDuration - currentTime;
+
+  if (remainingTime < MINS_IN_HOUR) {
+    return dayjs.duration(remainingTime, 'seconds').format('-mm:ss');
   }
 
-  return dayjs.duration(runTime, 'minutes').format('HH:mm:ss');
+  return dayjs.duration(remainingTime, 'seconds').format('-HH:mm:ss');
 };
 
 const getGenresList = (films: Film[]): string[] => {
@@ -64,6 +66,16 @@ const isCheckedAuth = (authorizationStatus: string): boolean => authorizationSta
 const createAPIRoute = (route: string, id: number) => route.replace('id', `${id}`);
 const createAppRoute = (route: string, id: number) => route.replace(':id', `${id}`);
 
+const deleteArrayElement = (array: Films, element: Film): Films => {
+  const index = array.findIndex((elem, id) => id === element.id);
+
+  if (index > -1) {
+    array.splice(index, 1);
+  }
+
+  return array;
+};
+
 export {
   getRatingDescription,
   convertMinsToHours,
@@ -72,4 +84,5 @@ export {
   isCheckedAuth,
   createAPIRoute,
   createAppRoute,
+  deleteArrayElement,
 };

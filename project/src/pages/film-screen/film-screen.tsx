@@ -4,18 +4,18 @@ import FilmCards from '../../components/film-cards/film-cards';
 import FilmTabs from '../../components/film-tabs/film-tabs';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
+import MyListButton from '../../components/my-list-button/my-list-button';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute, AuthorizationStatus, INITIAL_FILM_ID} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction, fetchFilmReviewsAction, fetchSimilarFilmsAction} from '../../services/api-actions';
-import {getFavoriteFilms, getFilm, getFilmReviews, getSimilarFilms} from '../../store/app-data/selectors';
+import {getFilm, getFilmReviews, getSimilarFilms} from '../../store/app-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {createAppRoute} from '../../utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function FilmScreen(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const film = useAppSelector(getFilm);
   const reviews = useAppSelector(getFilmReviews);
   const similarFilms = useAppSelector(getSimilarFilms);
@@ -102,13 +102,7 @@ function FilmScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.CurrentPage} className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
-                </Link>
+                <MyListButton film={film} />
                 {authorizationStatus === AuthorizationStatus.Auth
                 &&
                 <Link to={reviewPath} className="btn film-card__button">Add review</Link>}

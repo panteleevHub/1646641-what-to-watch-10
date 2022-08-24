@@ -17,7 +17,6 @@ const APIRoute = {
   Films: '/films',
   SimilarFilms: 'films/id/similar',
   FavoriteFilms: '/favorite',
-  FavoriteFilmsStatus: '/favorite/id/status',
   Film: '/films/id',
   PromoFilm: '/promo',
   Reviews: '/comments/id',

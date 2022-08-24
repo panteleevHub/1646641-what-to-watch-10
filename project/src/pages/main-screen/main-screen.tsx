@@ -4,11 +4,12 @@ import FilmCards from '../../components/film-cards/film-cards';
 import Footer from '../../components/footer/footer';
 import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
+import MyListButton from '../../components/my-list-button/my-list-button';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
-import {getFavoriteFilms, getPromoFilm} from '../../store/app-data/selectors';
+import {getPromoFilm} from '../../store/app-data/selectors';
 import {filterFilms} from '../../store/filter-data/selectors';
 import {createAppRoute} from '../../utils';
 
@@ -16,7 +17,6 @@ const FILMS_TO_RENDER_COUNT = 8;
 
 function MainScreen(): JSX.Element {
   const promoFilm = useAppSelector(getPromoFilm);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const filteredFilms = useAppSelector(filterFilms);
 
   // const initialFilmsCount = Math.min(filteredFilms.length, FILMS_TO_RENDER_COUNT);
@@ -98,13 +98,7 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.CurrentPage} className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
-                </Link>
+                <MyListButton film={promoFilm} />
               </div>
             </div>
           </div>
