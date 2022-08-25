@@ -1,5 +1,6 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Film, Films} from '../types/film';
+import {Reviews} from '../types/review';
 
 const changeGenre = createAction(
   'filter/changeGenre',
@@ -12,6 +13,27 @@ const resetGenres = createAction('filter/resetGenres');
 
 const setFilms = createAction(
   'data/setFilms',
+  (films: Films) => ({
+    payload: films,
+  })
+);
+
+const setFilm = createAction(
+  'data/setFilm',
+  (film: Film) => ({
+    payload: film,
+  })
+);
+
+const setFilmReviews = createAction(
+  'data/setFilmReviews',
+  (reviews: Reviews) => ({
+    payload: reviews,
+  })
+);
+
+const setSimilarFilms = createAction(
+  'data/setSimilarFilms',
   (films: Films) => ({
     payload: films,
   })
@@ -33,8 +55,15 @@ const setPromoFilm = createAction(
 
 const setDataLoadingStatus = createAction(
   'data/setDataLoadingStatus',
-  (isDataLoaded: boolean) => ({
-    payload: isDataLoaded,
+  (isDataLoading: boolean) => ({
+    payload: isDataLoading,
+  })
+);
+
+const setReviewSendingStatus = createAction(
+  'data/setReviewSendingStatus',
+  (isReviewSending: boolean) => ({
+    payload: isReviewSending,
   })
 );
 
@@ -52,13 +81,28 @@ const setUserAvatar = createAction(
   })
 );
 
+const clearUserAvatar = createAction('user/clearUserAvatar');
+
+const redirectToRoute = createAction(
+  'route/redirectToRoute',
+  (route: string) => ({
+    payload: route,
+  })
+);
+
 export {
   changeGenre,
   resetGenres,
   setFilms,
+  setFilm,
+  setFilmReviews,
+  setSimilarFilms,
   setFavoriteFilms,
   setPromoFilm,
   setDataLoadingStatus,
+  setReviewSendingStatus,
   setAuthorizationStatus,
   setUserAvatar,
+  clearUserAvatar,
+  redirectToRoute,
 };

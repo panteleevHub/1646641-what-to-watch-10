@@ -18,4 +18,9 @@ export type Film = {
   isFavorite: boolean,
 }
 
+export type FilmDataType = {
+  id: string,
+  setFilmData: (film: Film) => void,
+}
+
 export type Films = Film[]

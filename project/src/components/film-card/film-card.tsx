@@ -2,6 +2,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Film} from '../../types/film';
 import VideoPlayer from '../../components/video-player/video-player';
 import {AppRoute, FilmPreview} from '../../const';
+import {createAppRoute} from '../../utils';
 
 type FilmCardProps = {
   film: Film,
@@ -15,7 +16,7 @@ function FilmCard(props: FilmCardProps): JSX.Element {
 
   const navigate = useNavigate();
 
-  const filmPath = AppRoute.Film.replace(':id', `${film.id}`);
+  const filmPath = createAppRoute(AppRoute.Film, film.id);
 
   return (
     <article onClick={() => navigate(filmPath)} className="small-film-card catalog__films-card" onMouseOver={onFilmCardMouseOver} onMouseOut={onFilmCardMouseOut}>
