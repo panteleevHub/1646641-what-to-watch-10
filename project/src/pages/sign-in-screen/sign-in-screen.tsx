@@ -1,23 +1,22 @@
-import {FormEvent, Fragment, useRef, useState} from 'react';
+import {FormEvent, Fragment, useRef} from 'react';
 import {Navigate} from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
+import { useLoginValidation } from '../../hooks/use-login-validation';
 import {loginAction} from '../../services/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {AuthData} from '../../types/auth-data';
 
-const PASSWORD_MIN_LENGTH = 6;
-
 function SignInScreen(): JSX.Element {
+  const {validateEmail, validatePassword, isDataValid} = useLoginValidation();
+
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
@@ -30,17 +29,12 @@ function SignInScreen(): JSX.Element {
       return;
     }
 
-    if (emailRef.current.checkValidity()) {
-      setIsEmailValid(true);
-    } else {
-      setIsEmailValid(false);
-      return;
+    if (validateEmail(emailRef.current.value) && validatePassword(passwordRef.current.value)) {
+      onSubmit({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      });
     }
-
-    onSubmit({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
   };
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -87,19 +81,25 @@ function SignInScreen(): JSX.Element {
         <div className="sign-in user-page__content">
           <form onSubmit={handleFormSubmit} action="#" className="sign-in__form">
 
-            {!isEmailValid
+            {!isDataValid.email
               &&
             <div className="sign-in__message">
               <p>Please enter a valid email address</p>
             </div>}
 
+            {!isDataValid.password
+              &&
+            <div className="sign-in__message">
+              <p>Password must contain letters and numbers</p>
+            </div>}
+
             <div className="sign-in__fields">
               <div className="sign-in__field">
-                <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" required />
+                <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
               <div className="sign-in__field">
-                <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" minLength={PASSWORD_MIN_LENGTH} required />
+                <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>
             </div>
