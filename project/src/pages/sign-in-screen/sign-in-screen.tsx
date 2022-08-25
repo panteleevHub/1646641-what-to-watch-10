@@ -22,7 +22,7 @@ function SignInScreen(): JSX.Element {
     evt.preventDefault();
     dispatch(loginAction({...userData}));
   };
-
+ 
   return (
     <Fragment>
       <div className="visually-hidden">
