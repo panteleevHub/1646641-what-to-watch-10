@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import {convertReleaseDate, convertDateTime} from '../../utils';
 import {Review} from '../../types/review';
 
 type ReviewsProps = {
@@ -9,9 +9,6 @@ function Reviews({reviews}: ReviewsProps): JSX.Element {
   const half = Math.round(reviews.length / 2);
   const firstReviews = reviews.slice(0, half);
   const lastReviews = reviews.slice(half, reviews.length);
-
-  const convertReleaseDate = (date: string) => dayjs(date).format('MMMM D, YYYY');
-  const convertDateTime = (date: string) => dayjs(date).format('YYYY-MM-DD');
 
   return (
     <div className="film-card__reviews film-card__row">

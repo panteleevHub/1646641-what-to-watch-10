@@ -4,7 +4,6 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {
   addFavoriteFilmAction,
-  fetchFavoriteFilmsAction,
   removeFavoriteFilmAction
 } from '../../services/api-actions';
 import {getFavoriteFilms} from '../../store/app-data/selectors';
@@ -31,12 +30,10 @@ function MyListButton({film}: MyListButtonProps): JSX.Element {
 
     if (!film.isFavorite) {
       dispatch(addFavoriteFilmAction(film.id));
-      dispatch(fetchFavoriteFilmsAction());
       return;
     }
 
     dispatch(removeFavoriteFilmAction(film.id));
-    dispatch(fetchFavoriteFilmsAction());
   };
 
   return (

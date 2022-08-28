@@ -21,18 +21,20 @@ function Genres({onGenreChange}: GenresProps): JSX.Element {
   const handleGenreChange = (genre: string) => {
     if (genre === INITIAL_GENRE) {
       dispatch(resetGenres());
-      onGenreChange();
       return;
     }
 
     dispatch(changeGenre(genre));
-    onGenreChange();
   };
 
   return (
     <ul className="catalog__genres-list">
       {genres.map((genre) => (
-        <li onClick={() => handleGenreChange(genre)} key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}>
+        <li onClick={() => {
+          handleGenreChange(genre);
+          onGenreChange();
+        }} key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}
+        >
           <Link to={AppRoute.CurrentPage} className="catalog__genres-link">{genre}</Link>
         </li>
       ))}

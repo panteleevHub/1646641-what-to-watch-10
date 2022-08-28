@@ -83,12 +83,8 @@ const appData = createSlice({
         state.promoFilm = action.payload;
         state.isDataLoading = false;
       })
-      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataLoading = true;
-      })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload;
-        state.isDataLoading = false;
       })
       .addCase(fetchFilmAction.fulfilled, ({filmData}, action) => {
         filmData.film = action.payload as Film;
@@ -111,6 +107,7 @@ const appData = createSlice({
       .addCase(addFavoriteFilmAction.fulfilled, (state, action) => {
         if (action.payload.id === state.promoFilm.id) {
           state.promoFilm = action.payload;
+          state.filmData.film = action.payload;
           return;
         }
         state.filmData.film = action.payload;
@@ -118,6 +115,7 @@ const appData = createSlice({
       .addCase(removeFavoriteFilmAction.fulfilled, (state, action) => {
         if (action.payload.id === state.promoFilm.id) {
           state.promoFilm = action.payload;
+          state.filmData.film = action.payload;
           return;
         }
         state.filmData.film = action.payload;

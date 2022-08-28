@@ -1,4 +1,4 @@
-import {store} from '../store/index.js';
+import {store} from '../store/store.js';
 import {Film, Films} from './film.js';
 import {Reviews} from './review.js';
 

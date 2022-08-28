@@ -5,7 +5,6 @@ import {Film, Films} from '../types/film';
 import {AppDispatch, State} from '../types/state';
 import {
   redirectToRoute,
-  // setReviewSendingStatus,
 } from '../store/action';
 import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
@@ -107,8 +106,9 @@ const addFavoriteFilmAction = createAsyncThunk<Film, number, {
   extra: AxiosInstance
 }>(
   'data/addFavoriteFilmAction',
-  async (filmId, {extra: api}) => {
+  async (filmId, {dispatch, extra: api}) => {
     const {data} = await api.post(`${APIRoute.FavoriteFilms}/${filmId}/1`);
+    dispatch(fetchFavoriteFilmsAction());
     return data;
   }
 );
@@ -119,8 +119,9 @@ const removeFavoriteFilmAction = createAsyncThunk<Film, number, {
   extra: AxiosInstance
 }>(
   'data/removeFavoriteFilmAction',
-  async (filmId, {extra: api}) => {
+  async (filmId, {dispatch, extra: api}) => {
     const {data} = await api.post(`${APIRoute.FavoriteFilms}/${filmId}/0`);
+    dispatch(fetchFavoriteFilmsAction());
     return data;
   }
 );
@@ -143,7 +144,7 @@ const loginAction = createAsyncThunk<string, AuthData, {
   extra: AxiosInstance
 }>(
   'user/loginAction',
-  async ({email, password}, {dispatch, extra: api}) => {
+  async ({email, password}, {extra: api}) => {
     const {data: {token, avatarUrl}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     return avatarUrl;

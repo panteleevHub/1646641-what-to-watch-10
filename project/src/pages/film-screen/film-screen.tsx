@@ -6,7 +6,7 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import MyListButton from '../../components/my-list-button/my-list-button';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute, AuthorizationStatus, INITIAL_FILM_ID} from '../../const';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction, fetchFilmReviewsAction, fetchSimilarFilmsAction} from '../../services/api-actions';
 import {getFilm, getFilmReviews, getSimilarFilms} from '../../store/app-data/selectors';
@@ -36,7 +36,7 @@ function FilmScreen(): JSX.Element {
 
   }, [dispatch, filmId]);
 
-  if (film.id === INITIAL_FILM_ID) {
+  if (filmId !== film.id) {
     return <LoadingScreen />;
   }
 

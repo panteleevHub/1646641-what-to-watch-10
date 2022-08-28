@@ -1,36 +1,19 @@
-import {Fragment, useState} from 'react';
+import {Fragment} from 'react';
 import {Link} from 'react-router-dom';
-import FilmCards from '../../components/film-cards/film-cards';
+import Catalog from '../../components/catalog/catalog';
 import Footer from '../../components/footer/footer';
-import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
 import MyListButton from '../../components/my-list-button/my-list-button';
-import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {getPromoFilm} from '../../store/app-data/selectors';
-import {filterFilms} from '../../store/filter-data/selectors';
 import {createAppRoute} from '../../utils';
-
-const FILMS_TO_RENDER_COUNT = 8;
 
 function MainScreen(): JSX.Element {
   const promoFilm = useAppSelector(getPromoFilm);
-  const filteredFilms = useAppSelector(filterFilms);
-
-  // const initialFilmsCount = Math.min(filteredFilms.length, FILMS_TO_RENDER_COUNT);
-
-  const [renderedFilmsCount, setRenderedFilmsCount] = useState(FILMS_TO_RENDER_COUNT);
 
   const playerPath = createAppRoute(AppRoute.Player, promoFilm.id);
-
-  const handleShowMoreButtonClick = () => {
-    setRenderedFilmsCount(
-      (prevRenderedFilms) =>
-        prevRenderedFilms + Math.min(FILMS_TO_RENDER_COUNT, filteredFilms.length - prevRenderedFilms)
-    );
-  };
 
   return (
     <Fragment>
@@ -106,18 +89,7 @@ function MainScreen(): JSX.Element {
       </section>
 
       <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <Genres onGenreChange={() => setRenderedFilmsCount(FILMS_TO_RENDER_COUNT)} />
-          <FilmCards films={filteredFilms.slice(0, renderedFilmsCount)} />
-
-          <div className="catalog__more">
-            {filteredFilms.length > renderedFilmsCount
-            &&
-            <ShowMoreButton onShowMoreButtonClick={handleShowMoreButtonClick} />}
-          </div>
-        </section>
-
+        <Catalog />
         <Footer />
       </div>
     </Fragment>

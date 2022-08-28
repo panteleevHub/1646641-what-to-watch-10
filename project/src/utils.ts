@@ -25,6 +25,9 @@ const getRatingDescription = (rating: number): string => {
   return RatingDescription.Awesome;
 };
 
+const convertReleaseDate = (date: string) => dayjs(date).format('MMMM D, YYYY');
+const convertDateTime = (date: string) => dayjs(date).format('YYYY-MM-DD');
+
 const convertMinsToHours = (mins: number): string => {
   const hours = Math.trunc(mins / MINS_IN_HOUR);
   const minutes = mins % MINS_IN_HOUR;
@@ -78,6 +81,8 @@ const deleteArrayElement = (array: Films, element: Film): Films => {
 
 export {
   getRatingDescription,
+  convertReleaseDate,
+  convertDateTime,
   convertMinsToHours,
   convertToPlaybackTime,
   getGenresList,
