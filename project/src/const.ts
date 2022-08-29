@@ -1,7 +1,5 @@
 const INITIAL_GENRE = 'All genres';
 
-const INITIAL_FILM_ID = 0;
-
 const AppRoute = {
   Main: '/',
   SignIn: '/login',
@@ -17,7 +15,6 @@ const APIRoute = {
   Films: '/films',
   SimilarFilms: 'films/id/similar',
   FavoriteFilms: '/favorite',
-  FavoriteFilmsStatus: '/favorite/id/status',
   Film: '/films/id',
   PromoFilm: '/promo',
   Reviews: '/comments/id',
@@ -29,6 +26,12 @@ const AuthorizationStatus = {
   Auth: 'AUTH',
   NoAuth: 'NO_AUTH',
   Unknown: 'UNKNOWN',
+} as const;
+
+const NameSpace = {
+  Filter: 'FILTER',
+  Data: 'DATA',
+  User: 'USER',
 } as const;
 
 const Rating = {
@@ -60,9 +63,9 @@ const FilmInfo = {
 
 export {
   INITIAL_GENRE,
-  INITIAL_FILM_ID,
   AppRoute,
   APIRoute,
+  NameSpace,
   AuthorizationStatus,
   Rating,
   RatingDescription,

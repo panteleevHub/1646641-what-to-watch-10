@@ -1,31 +1,19 @@
 import {Fragment} from 'react';
 import {Link} from 'react-router-dom';
-import FilmCards from '../../components/film-cards/film-cards';
+import Catalog from '../../components/catalog/catalog';
 import Footer from '../../components/footer/footer';
-import Genres from '../../components/genres/genres';
 import Logo from '../../components/logo/logo';
-import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import MyListButton from '../../components/my-list-button/my-list-button';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute, INITIAL_GENRE} from '../../const';
+import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
-import {Films} from '../../types/film';
+import {getPromoFilm} from '../../store/app-data/selectors';
 import {createAppRoute} from '../../utils';
 
-// const FILMS_TO_RENDER_COUNT = 8;
-
 function MainScreen(): JSX.Element {
-  const {films, promoFilm, favoriteFilms} = useAppSelector((state) => state);
-  const currentGenre = useAppSelector((state) => state.genre);
+  const promoFilm = useAppSelector(getPromoFilm);
 
   const playerPath = createAppRoute(AppRoute.Player, promoFilm.id);
-
-  const filterFilms = (): Films => {
-    if (currentGenre === INITIAL_GENRE) {
-      return films;
-    }
-
-    return films.filter(({genre}) => genre === currentGenre);
-  };
 
   return (
     <Fragment>
@@ -93,13 +81,7 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.CurrentPage} className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
-                </Link>
+                <MyListButton film={promoFilm} />
               </div>
             </div>
           </div>
@@ -107,16 +89,7 @@ function MainScreen(): JSX.Element {
       </section>
 
       <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <Genres films={films} />
-          <FilmCards films={filterFilms()} />
-
-          <div className="catalog__more">
-            <ShowMoreButton />
-          </div>
-        </section>
-
+        <Catalog />
         <Footer />
       </div>
     </Fragment>

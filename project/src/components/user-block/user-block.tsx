@@ -2,9 +2,11 @@ import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../services/api-actions';
+import {getAuthorizationStatus, getUserAvatar} from '../../store/user-process/selectors';
 
 function UserBlock(): JSX.Element {
-  const {authorizationStatus, userAvatar} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userAvatar = useAppSelector(getUserAvatar);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

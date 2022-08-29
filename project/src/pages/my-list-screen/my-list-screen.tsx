@@ -4,10 +4,11 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import {useAppSelector} from '../../hooks';
+import {getFavoriteFilms} from '../../store/app-data/selectors';
 
 
 function MyList(): JSX.Element {
-  const {favoriteFilms} = useAppSelector((state) => state);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
 
   return (
     <Fragment>

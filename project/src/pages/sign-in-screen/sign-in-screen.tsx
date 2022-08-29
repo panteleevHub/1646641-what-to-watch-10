@@ -1,28 +1,46 @@
-import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
+import {FormEvent, Fragment, useRef} from 'react';
+import {Navigate} from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
-import {useAppDispatch} from '../../hooks';
+import {AppRoute, AuthorizationStatus} from '../../const';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useLoginValidation} from '../../hooks/use-login-validation';
 import {loginAction} from '../../services/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {AuthData} from '../../types/auth-data';
 
 function SignInScreen(): JSX.Element {
-  const [userData, setUserData] = useState<AuthData>({
-    email: '',
-    password: '',
-  });
+  const {validateEmail, validatePassword, isDataValid} = useLoginValidation();
 
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
 
-  const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = target;
-    setUserData({...userData, [name]: value});
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const onSubmit = (authData: AuthData) => {
+    dispatch(loginAction(authData));
   };
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(loginAction({...userData}));
+
+    if (emailRef.current === null || passwordRef.current === null) {
+      return;
+    }
+
+    if (validateEmail(emailRef.current.value) && validatePassword(passwordRef.current.value)) {
+      onSubmit({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      });
+    }
   };
- 
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.Main} />;
+  }
+
   return (
     <Fragment>
       <div className="visually-hidden">
@@ -62,13 +80,26 @@ function SignInScreen(): JSX.Element {
 
         <div className="sign-in user-page__content">
           <form onSubmit={handleFormSubmit} action="#" className="sign-in__form">
+
+            {!isDataValid.email
+              &&
+            <div className="sign-in__message">
+              <p>Please enter a valid email address</p>
+            </div>}
+
+            {!isDataValid.password
+              &&
+            <div className="sign-in__message">
+              <p>Password must contain letters and numbers</p>
+            </div>}
+
             <div className="sign-in__fields">
               <div className="sign-in__field">
-                <input onChange={handleInputChange} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" value={userData.email} />
+                <input ref={emailRef} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
               <div className="sign-in__field">
-                <input onChange={handleInputChange} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" value={userData.password} />
+                <input ref={passwordRef} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" />
                 <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
               </div>
             </div>

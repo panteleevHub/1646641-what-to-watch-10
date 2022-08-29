@@ -3,14 +3,15 @@ import {Link, useParams} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import UserBlock from '../../components/user-block/user-block';
-import {AppRoute, INITIAL_FILM_ID} from '../../const';
+import {AppRoute} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction} from '../../services/api-actions';
+import {getFilm} from '../../store/app-data/selectors';
 import {createAppRoute} from '../../utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function AddReviewScreen(): JSX.Element {
-  const {film} = useAppSelector((state) => state.filmData);
+  const film = useAppSelector(getFilm);
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -23,7 +24,7 @@ function AddReviewScreen(): JSX.Element {
     dispatch(fetchFilmAction(filmId));
   }, [dispatch, filmId]);
 
-  if (film.id === INITIAL_FILM_ID) {
+  if (filmId !== film.id) {
     return <LoadingScreen />;
   }
 

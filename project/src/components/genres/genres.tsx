@@ -2,15 +2,18 @@ import {Link} from 'react-router-dom';
 import {AppRoute, INITIAL_GENRE} from '../../const';
 import {getGenresList} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeGenre, resetGenres} from '../../store/action';
-import {Film} from '../../types/film';
+import {getCurrentGenre} from '../../store/filter-data/selectors';
+import {changeGenre, resetGenres} from '../../store/filter-data/filter-data';
+import {getFilms} from '../../store/app-data/selectors';
 
 type GenresProps = {
-  films: Film[],
+  onGenreChange: () => void,
 }
 
-function Genres({films}: GenresProps): JSX.Element {
-  const currentGenre = useAppSelector((store) => store.genre);
+function Genres({onGenreChange}: GenresProps): JSX.Element {
+  const films = useAppSelector(getFilms);
+  const currentGenre = useAppSelector(getCurrentGenre);
+
   const dispatch = useAppDispatch();
 
   const genres = getGenresList(films);
@@ -27,7 +30,11 @@ function Genres({films}: GenresProps): JSX.Element {
   return (
     <ul className="catalog__genres-list">
       {genres.map((genre) => (
-        <li onClick={() => handleGenreChange(genre)} key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}>
+        <li onClick={() => {
+          handleGenreChange(genre);
+          onGenreChange();
+        }} key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}
+        >
           <Link to={AppRoute.CurrentPage} className="catalog__genres-link">{genre}</Link>
         </li>
       ))}
