@@ -10,6 +10,7 @@ const getFilm = (state: State): Film => state[NameSpace.Data].filmData.film;
 const getSimilarFilms = (state: State): Films => state[NameSpace.Data].filmData.similarFilms;
 const getFilmReviews = (state: State): Reviews => state[NameSpace.Data].filmData.reviews;
 const getDataLoadingStatus = (state: State): boolean => state[NameSpace.Data].isDataLoading;
+const getDataLoadingErrorStatus = (state: State): boolean => state[NameSpace.Data].isDataLoadingError;
 const getReviewSendingStatus = (state: State): boolean => state[NameSpace.Data].isReviewSending;
 
 export {
@@ -20,5 +21,6 @@ export {
   getSimilarFilms,
   getFilmReviews,
   getDataLoadingStatus,
+  getDataLoadingErrorStatus,
   getReviewSendingStatus,
 };

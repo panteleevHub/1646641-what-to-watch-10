@@ -12,17 +12,23 @@ import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import {useAppSelector} from '../../hooks';
 import {isCheckedAuth} from '../../utils';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRouter from '../history-router/history-router';
 import browserHistory from '../../browser-history';
-import {getDataLoadingStatus} from '../../store/app-data/selectors';
+import {getDataLoadingErrorStatus, getDataLoadingStatus} from '../../store/app-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import ErrorScreen from '../../pages/error-screen/error-screen';
 
 function App(): JSX.Element {
   const isDataLoading = useAppSelector(getDataLoadingStatus);
+  const isDataLoadingError = useAppSelector(getDataLoadingErrorStatus);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isCheckedAuth(authorizationStatus) || isDataLoading) {
     return <LoadingScreen />;
+  }
+
+  if (isDataLoadingError) {
+    return <ErrorScreen />;
   }
 
   return (

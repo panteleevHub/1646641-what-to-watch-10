@@ -17,6 +17,7 @@ export type AppData = {
     similarFilms: Films,
   },
   isDataLoading: boolean,
+  isDataLoadingError: boolean,
   isReviewSending: boolean,
 }
 

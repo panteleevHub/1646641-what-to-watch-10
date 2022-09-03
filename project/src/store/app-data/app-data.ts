@@ -60,6 +60,7 @@ const initialState: AppData = {
     similarFilms: [],
   },
   isDataLoading: true,
+  isDataLoadingError: false,
   isReviewSending: false,
 };
 
@@ -71,6 +72,10 @@ const appData = createSlice({
     builder
       .addCase(fetchFilmsAction.pending, (state) => {
         state.isDataLoading = true;
+      })
+      .addCase(fetchFilmsAction.rejected, (state) => {
+        state.isDataLoading = false;
+        state.isDataLoadingError = true;
       })
       .addCase(fetchFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload;
