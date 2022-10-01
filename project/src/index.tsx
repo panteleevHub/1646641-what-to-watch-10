@@ -11,6 +11,9 @@ import {
 } from './services/api-actions';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HistoryRouter from './components/history-router/history-router';
+import browserHistory from './browser-history';
+import ScrollToTop from './components/scroll-to-top/scroll-to-top';
 
 store.dispatch(fetchFilmsAction());
 store.dispatch(fetchPromoFilmAction());
@@ -24,8 +27,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer />
-      <App />
+      <HistoryRouter history={browserHistory}>
+        <ScrollToTop />
+        <ToastContainer />
+        <App />
+      </HistoryRouter>
     </Provider>
   </React.StrictMode>,
 );

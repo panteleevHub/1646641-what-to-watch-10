@@ -59,7 +59,7 @@ const initialState: AppData = {
     reviews: [],
     similarFilms: [],
   },
-  isDataLoading: true,
+  isDataLoading: false,
   isDataLoadingError: false,
   isReviewSending: false,
 };

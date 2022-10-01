@@ -1,4 +1,4 @@
-import {convertMinsToHours} from '../../utils';
+import {convertMinsToHours} from '../../utils/utils';
 import {Film} from '../../types/film';
 
 type DetailsProps = {

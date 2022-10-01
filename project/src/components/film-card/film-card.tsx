@@ -2,7 +2,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Film} from '../../types/film';
 import VideoPlayer from '../../components/video-player/video-player';
 import {AppRoute, FilmPreview} from '../../const';
-import {createAppRoute} from '../../utils';
+import {createAppRoute} from '../../utils/utils';
 
 type FilmCardProps = {
   film: Film,

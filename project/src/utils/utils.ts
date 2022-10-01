@@ -1,28 +1,34 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
-import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from './const';
-import {Film, Films} from './types/film';
+import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from '../const';
+import {Film, Films} from '../types/film';
 
 const MINS_IN_HOUR = 60;
 
 const getRatingDescription = (rating: number): string => {
+  let ratingDesc = '';
+
   if (rating >= Rating.None && rating < Rating.Low) {
-    return RatingDescription.Bad;
+    ratingDesc = RatingDescription.Bad;
   }
 
   if (rating >= Rating.Low && rating < Rating.Average) {
-    return RatingDescription.Normal;
+    ratingDesc = RatingDescription.Normal;
   }
 
   if (rating >= Rating.Average && rating < Rating.High) {
-    return RatingDescription.Good;
+    ratingDesc = RatingDescription.Good;
   }
 
   if (rating >= Rating.High && rating < Rating.Max) {
-    return RatingDescription.VeryGood;
+    ratingDesc = RatingDescription.VeryGood;
   }
 
-  return RatingDescription.Awesome;
+  if (rating === Rating.Max) {
+    ratingDesc = RatingDescription.Awesome;
+  }
+
+  return ratingDesc;
 };
 
 const convertReleaseDate = (date: string) => dayjs(date).format('MMMM D, YYYY');

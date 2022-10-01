@@ -10,7 +10,7 @@ import {UserData} from '../types/user-data';
 import {AuthData} from '../types/auth-data';
 import {dropToken, saveToken} from './token';
 import {NewReview, Reviews} from '../types/review';
-import {createAPIRoute, createAppRoute} from '../utils';
+import {createAPIRoute, createAppRoute} from '../utils/utils';
 
 const fetchFilmsAction = createAsyncThunk<Films, undefined, {
   dispatch: AppDispatch,
@@ -108,7 +108,7 @@ const addFavoriteFilmAction = createAsyncThunk<Film, number, {
   'data/addFavoriteFilmAction',
   async (filmId, {dispatch, extra: api}) => {
     const {data} = await api.post(`${APIRoute.FavoriteFilms}/${filmId}/1`);
-    dispatch(fetchFavoriteFilmsAction());
+    await dispatch(fetchFavoriteFilmsAction());
     return data;
   }
 );
@@ -121,7 +121,7 @@ const removeFavoriteFilmAction = createAsyncThunk<Film, number, {
   'data/removeFavoriteFilmAction',
   async (filmId, {dispatch, extra: api}) => {
     const {data} = await api.post(`${APIRoute.FavoriteFilms}/${filmId}/0`);
-    dispatch(fetchFavoriteFilmsAction());
+    await dispatch(fetchFavoriteFilmsAction());
     return data;
   }
 );

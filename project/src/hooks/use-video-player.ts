@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {convertToPlaybackTime} from '../utils';
+import {convertToPlaybackTime} from '../utils/utils';
 
 const VIDEO_UPDATE_INTERVAL = 1000;
 

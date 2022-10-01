@@ -1,4 +1,4 @@
-import {convertReleaseDate, convertDateTime} from '../../utils';
+import {convertReleaseDate, convertDateTime} from '../../utils/utils';
 import {Review} from '../../types/review';
 
 type ReviewsProps = {

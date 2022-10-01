@@ -5,7 +5,7 @@ function NotFoundScreen(): JSX.Element {
   return (
     <section className="not-found">
       <h1>404. Page not found</h1>
-      <a href={AppRoute.Main} className='not-found__link'>Вернуться на главную</a>
+      <a href={AppRoute.Main} className='not-found__link'>Go back to the main page</a>
     </section>
   );
 }

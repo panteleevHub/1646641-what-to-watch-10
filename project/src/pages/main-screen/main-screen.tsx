@@ -8,7 +8,7 @@ import UserBlock from '../../components/user-block/user-block';
 import {AppRoute} from '../../const';
 import {useAppSelector} from '../../hooks';
 import {getPromoFilm} from '../../store/app-data/selectors';
-import {createAppRoute} from '../../utils';
+import {createAppRoute} from '../../utils/utils';
 
 function MainScreen(): JSX.Element {
   const promoFilm = useAppSelector(getPromoFilm);

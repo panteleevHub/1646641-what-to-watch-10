@@ -7,7 +7,7 @@ import {AppRoute} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction} from '../../services/api-actions';
 import {getFilm} from '../../store/app-data/selectors';
-import {createAppRoute} from '../../utils';
+import {createAppRoute} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function AddReviewScreen(): JSX.Element {

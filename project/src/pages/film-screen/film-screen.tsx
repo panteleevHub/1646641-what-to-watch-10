@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchFilmAction, fetchFilmReviewsAction, fetchSimilarFilmsAction} from '../../services/api-actions';
 import {getFilm, getFilmReviews, getSimilarFilms} from '../../store/app-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {createAppRoute} from '../../utils';
+import {createAppRoute} from '../../utils/utils';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function FilmScreen(): JSX.Element {

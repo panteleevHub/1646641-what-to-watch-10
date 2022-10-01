@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {AppRoute, INITIAL_GENRE} from '../../const';
-import {getGenresList} from '../../utils';
+import {getGenresList} from '../../utils/utils';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getCurrentGenre} from '../../store/filter-data/selectors';
 import {changeGenre, resetGenres} from '../../store/filter-data/filter-data';
@@ -33,7 +33,7 @@ function Genres({onGenreChange}: GenresProps): JSX.Element {
         <li onClick={() => {
           handleGenreChange(genre);
           onGenreChange();
-        }} key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}
+        }} key={genre} className={currentGenre !== genre ? 'catalog__genres-item' : 'catalog__genres-item catalog__genres-item--active'}
         >
           <Link to={AppRoute.CurrentPage} className="catalog__genres-link">{genre}</Link>
         </li>
