@@ -5,8 +5,14 @@ const LoginRegExp = {
   Password: new RegExp(/(?=.*[0-9])(?=.*[A-Za-z])[0-9A-Za-z]{2,}/),
 } as const;
 
-export const useLoginValidation = () => {
-  const [isDataValid, setDataValid] = useState({
+type ResultLoginValidation = [
+  (email: string) => boolean,
+  (password: string) => boolean,
+  {email: boolean, password: boolean}
+];
+
+export const useLoginValidation = (): ResultLoginValidation => {
+  const [isDataValid, setDataValid] = useState<{email: boolean, password: boolean}>({
     email: true,
     password: true,
   });
@@ -43,5 +49,5 @@ export const useLoginValidation = () => {
     }
   };
 
-  return {validateEmail, validatePassword, isDataValid};
+  return [validateEmail, validatePassword, isDataValid];
 };

@@ -1,21 +1,21 @@
 import {Fragment, useEffect,} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useVideoPlayer} from '../../hooks/use-video-player';
+import {useVideoPlayer} from '../../hooks/use-video-player/use-video-player';
 import {fetchFilmAction} from '../../services/api-actions';
 import {getFilm} from '../../store/app-data/selectors';
 
 const NAVIGATE_DELTA = -1;
 
 function PlayerScreen(): JSX.Element {
-  const {
+  const [
     isPlaying,
     handlePlayButton,
     handleFullScreenButton,
     currentProgress,
     filmDuration,
     videoRef
-  } = useVideoPlayer();
+  ] = useVideoPlayer();
 
   const film = useAppSelector(getFilm);
   const dispatch = useAppDispatch();

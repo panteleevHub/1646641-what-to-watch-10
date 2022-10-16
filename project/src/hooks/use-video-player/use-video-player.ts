@@ -1,9 +1,18 @@
-import {useEffect, useRef, useState} from 'react';
-import {convertToPlaybackTime} from '../utils/utils';
+import {Ref, useEffect, useRef, useState} from 'react';
+import {convertToPlaybackTime} from '../../utils/utils';
 
 const VIDEO_UPDATE_INTERVAL = 1000;
 
-export const useVideoPlayer = () => {
+type ResultVideoPlayer = [
+  boolean,
+  () => void,
+  () => void,
+  number,
+  string,
+  Ref<HTMLVideoElement>,
+]
+
+export const useVideoPlayer = (): ResultVideoPlayer => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [currentProgress, setCurrentProgress] = useState(0);
@@ -59,5 +68,12 @@ export const useVideoPlayer = () => {
     }
   };
 
-  return {isPlaying, handlePlayButton, handleFullScreenButton, currentProgress, filmDuration, videoRef};
+  return [
+    isPlaying,
+    handlePlayButton,
+    handleFullScreenButton,
+    currentProgress,
+    filmDuration,
+    videoRef,
+  ];
 };

@@ -4,13 +4,13 @@ import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useLoginValidation} from '../../hooks/use-login-validation';
+import {useLoginValidation} from '../../hooks/use-login-validation/use-login-validation';
 import {loginAction} from '../../services/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {AuthData} from '../../types/auth-data';
 
 function SignInScreen(): JSX.Element {
-  const {validateEmail, validatePassword, isDataValid} = useLoginValidation();
+  const [validateEmail, validatePassword, isDataValid] = useLoginValidation();
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();

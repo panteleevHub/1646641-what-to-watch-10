@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import {AuthorizationStatus, INITIAL_GENRE, Rating, RatingDescription} from '../const';
-import {Film, Films} from '../types/film';
+import {Film} from '../types/film';
 
 const MINS_IN_HOUR = 60;
 
@@ -54,7 +54,7 @@ const convertToPlaybackTime = (filmDuration: number, currentTime: number) => {
 
   const remainingTime = filmDuration - currentTime;
 
-  if (remainingTime < MINS_IN_HOUR) {
+  if (remainingTime < (MINS_IN_HOUR * 60)) {
     return dayjs.duration(remainingTime, 'seconds').format('-mm:ss');
   }
 
@@ -75,16 +75,6 @@ const isCheckedAuth = (authorizationStatus: string): boolean => authorizationSta
 const createAPIRoute = (route: string, id: number) => route.replace('id', `${id}`);
 const createAppRoute = (route: string, id: number) => route.replace(':id', `${id}`);
 
-const deleteArrayElement = (array: Films, element: Film): Films => {
-  const index = array.findIndex((elem, id) => id === element.id);
-
-  if (index > -1) {
-    array.splice(index, 1);
-  }
-
-  return array;
-};
-
 export {
   getRatingDescription,
   convertReleaseDate,
@@ -95,5 +85,4 @@ export {
   isCheckedAuth,
   createAPIRoute,
   createAppRoute,
-  deleteArrayElement,
 };
